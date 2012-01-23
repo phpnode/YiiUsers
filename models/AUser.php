@@ -1,5 +1,6 @@
 <?php
 Yii::import("packages.rbac.models.*");
+Yii::import("packages.stateMachine.*");
 /**
  * The user model.
  * @author Charles Pick
