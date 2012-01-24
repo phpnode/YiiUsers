@@ -93,7 +93,7 @@ abstract class AUserController extends Controller {
 	 * @param string $key The unique key for this user
 	 */
 	public function actionResetPassword($id = null, $key = null) {
-		$usersModule = Yii::app()->getModule("users");
+		$usersModule = Yii::app()->getModule("users"); /* @var AUsersModule $usersModule */
 		$modelClass = $usersModule->userModelClass;
 		if ($id !== null && $key !== null) {
 			// check if the id + key match for this user
@@ -102,7 +102,7 @@ abstract class AUserController extends Controller {
 				Yii::log("Invalid password reset attempt (no such user)","invalidPasswordReset","user.activity");
 				throw new CHttpException(400,"Your request is invalid");
 			}
-			elseif($user->passwordResetCode != $key) {
+			elseif($user->getPasswordResetCode() != $key) {
 				Yii::log("[$user->id] Invalid password reset attempt (invalid code)","invalidPasswordReset","user.activity");
 				throw new CHttpException(400,"Your request is invalid");
 			}
@@ -113,7 +113,7 @@ abstract class AUserController extends Controller {
 				if ($user->save()) {
 					Yii::log("[$user->id] Password reset via email","passwordReset","user.activity");
 					$identityClass = $usersModule->identityClass;
-					$identity = new $identityClass($user->email);
+					$identity = new $identityClass($user->email); /* @var CUserIdentity $identity */
 					$identity->id = $user->id;
 					$identity->name = $user->name;
 					if ($usersModule->autoLoginByDefault) {
@@ -132,25 +132,28 @@ abstract class AUserController extends Controller {
 			return;
 		}
 
-		$model = new $modelClass("resetPassword");
+		$model = new $modelClass("resetPassword"); /* @var AUser $model */
 		if (isset($_POST[$modelClass])) {
-			$user = $modelClass::model()->findByAttributes(array("email" => $_POST[$modelClass]['email']));
+			$user = $modelClass::model()->findByAttributes(array("email" => $_POST[$modelClass]['email'])); /* @var AUser $user */
 			if (is_object($user)) {
 				// send the user a password reset email
 
-				$email = new AEmail;
+				$email = Yii::createComponent("packages.email.models.AEmail"); /* @var AEmail $email */
+				$email->sender = Yii::app()->email->getDefaultSender();
+				$email->isHtml = true;
 				$email->recipient = $user->email;
 				$email->viewData = array("user" => $user);
 				$email->view = "/user/emails/resetPassword";
-				if ($email->send() || true) {
+				if ($email->send()) {
 					Yii::app()->user->setFlash("info",$this->renderPartial("flashMessages/resetEmailSent",array("user" => $user),true));
-					$this->redirect(array("/site/index"));
+					$this->redirect(Yii::app()->user->loginUrl);
 				}
 				else {
 					$model->addError("email", "There was a problem sending email to this address");
 				}
 			}
 			else {
+				// TODO: Decide whether this information leak (the user doesn't exist) is worth it or not
 				$model->addError("email","We couldn't find a user with that email address");
 			}
 		}

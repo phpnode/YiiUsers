@@ -231,7 +231,8 @@ abstract class AUser extends CActiveRecord {
 			}
 			else {
 				$this->salt = $this->generateSalt();
-				$this->password = new APasswordHash($this->password, $this->salt);
+				$hash = new APasswordHash($this->password, $this->salt);
+				$this->password = $hash->getHash();
 			}
 		}
 		return parent::beforeSave();
