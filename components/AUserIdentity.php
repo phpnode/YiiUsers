@@ -60,7 +60,6 @@ class AUserIdentity extends CUserIdentity {
 	 */
 	public function loginUser(AUser $user) {
 		$this->errorCode = self::ERROR_NONE;
-		$this->errorCode=self::ERROR_NONE;
 		$this->setId($user->id);
 		$this->setName($user->name);
 	}

@@ -10,6 +10,8 @@ Yii::import("packages.stateMachine.*");
  * @property string $salt The salt to use when hashing the password
  * @property string $password The password, this will be hashed
  * @property string $email The user's email address
+ * @property string $status The user's status, either pending, active or deactivated
+ * @property string $registeredAt The date / time the user registered
  * @property boolean $requiresNewPassword Whether a new password is required for this user
  *
  * @property AAuthRole[] $roles the authorisation roles that this user belongs to
@@ -604,21 +606,21 @@ abstract class AUser extends CActiveRecord {
 	}
 
 	/**
-     * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-     */
-    public function search()
-    {
-        $criteria=new CDbCriteria;
+	 * Retrieves a list of models based on the current search/filter conditions.
+	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 */
+	public function search()
+	{
+		$criteria=new CDbCriteria;
 
-        $criteria->compare('id',$this->searchKeyword,true,"OR");
-        $criteria->compare('name',$this->searchKeyword,true,"OR");
-        $criteria->compare('email',$this->searchKeyword,true,"OR");
+		$criteria->compare('id',$this->searchKeyword,true,"OR");
+		$criteria->compare('name',$this->searchKeyword,true,"OR");
+		$criteria->compare('email',$this->searchKeyword,true,"OR");
 
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
-    }
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
 	/**
 	 * @return ALogItem[] the activity log for this user
 	 */

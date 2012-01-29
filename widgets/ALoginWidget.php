@@ -27,14 +27,26 @@ class ALoginWidget extends CWidget {
 	 * @var ALoginForm
 	 */
 	protected $_model;
+
+	/**
+	 * Initializes the widget
+	 */
+	public function init()
+	{
+		parent::init();
+		ob_start();
+	}
+
+
 	/**
 	 * Runs the widget, displays the login form if the user is not logged in
 	 */
 	public function run() {
+		$html = ob_get_clean();
 		if (!Yii::app()->user->isGuest) {
 			return;
 		}
-		$html = "<a class='close-reveal-modal' href>x</a>";
+
 		$html .= $this->getController()->renderPartial(
 								$this->loginView,
 								array(
