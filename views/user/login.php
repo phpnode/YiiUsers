@@ -17,12 +17,12 @@
 
 <div class="form-field">
 	<?php echo $form->labelEx($model,'email'); ?>
-	<?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>450, "class" => "large text-input")); ?>
+	<?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>450, "class" => "large input-text")); ?>
 	<?php echo $form->error($model,'email'); ?>
 </div>
 <div class="form-field">
 	<?php echo $form->labelEx($model,'password'); ?>
-	<?php echo $form->passwordField($model,'password',array('size'=>60, "class" => "large text-input")); ?>
+	<?php echo $form->passwordField($model,'password',array('size'=>60, "class" => "large input-text")); ?>
 	<?php echo $form->error($model,'password'); ?>
 </div>
 <div class="form-field">

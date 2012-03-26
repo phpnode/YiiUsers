@@ -64,6 +64,7 @@ class APasswordHash extends CComponent {
 		}
 		return $hash;
 	}
+
 	/**
 	 * Gets the password hash
 	 * @return string the password hash

@@ -24,7 +24,7 @@ $form=$this->beginWidget('CActiveForm', array(
 					'name',
 					array(
 						'placeholder' => "The user's name",
-						'class' => 'large text-input',
+						'class' => 'large input-text',
 						'size'=>50,
 						'maxlength'=>50
 					)); ?>
@@ -38,7 +38,7 @@ $form=$this->beginWidget('CActiveForm', array(
 					$model,
 					'password',
 					array(
-						'class' => 'large text-input',
+						'class' => 'large input-text',
 						'placeholder' => "New password for the user",
 						'size'=>45,
 						'maxlength'=>45
@@ -53,7 +53,7 @@ $form=$this->beginWidget('CActiveForm', array(
 			$model,
 			'email',
 			array(
-				'class' => 'large text-input',
+				'class' => 'large input-text',
 				'placeholder' => "The user's email address",
 				'size'=>60,
 				'maxlength'=>450

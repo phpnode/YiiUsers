@@ -18,6 +18,12 @@ class AUserIdentity extends CUserIdentity {
 	protected $_name;
 
 	/**
+	 * Holds the model for the logged in user
+	 * @var AUser
+	 */
+	private $_user;
+
+	/**
 	 * Constructor.
 	 * @param string $email the user's email address
 	 * @param string $password the user's password
@@ -32,8 +38,7 @@ class AUserIdentity extends CUserIdentity {
 	 * @return boolean whether authentication succeeds.
 	 */
 	public function authenticate() {
-		$modelClass = Yii::app()->getModule("users")->userModelClass;
-		$user = $modelClass::model()->findByAttributes(array("email" => $this->username));
+		$user = $this->getUser();
 
 		if(!is_object($user)) {
 			Yii::log("Invalid login attempt from ".$_SERVER['REMOTE_ADDR']." (no such user)","invalidLogin","user.activity");
@@ -52,6 +57,18 @@ class AUserIdentity extends CUserIdentity {
 			$this->loginUser($user);
 		}
 		return !$this->errorCode;
+	}
+
+	/**
+	 * Gets the user model
+	 * @return AUser
+	 */
+	public function getUser() {
+		if ($this->_user === null) {
+			$modelClass = Yii::app()->getModule("users")->userModelClass;
+			$this->_user = $modelClass::model()->findByAttributes(array("email" => $this->username));
+		}
+		return $this->_user;
 	}
 
 	/**
