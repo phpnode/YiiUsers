@@ -71,10 +71,10 @@ $this->widget("TabView",array(
 				"title" => "Preferences",
 				"content" => $this->renderPartial("_preferences",array("model" => $model),true),
 			),
-		"groups" => array(
+		/*"groups" => array(
 			"title" => "Groups",
 			"content" => $this->renderPartial("_groups",array("model" => $model),true),
-		),
+		),*/
 		"roles" => array(
 			"title" => "Roles",
 			"content" => $this->renderPartial("_roles",array("model" => $model),true),
