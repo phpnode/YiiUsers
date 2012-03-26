@@ -9,13 +9,13 @@
 <h4 class="subheader">Edit your contact details.</h4>
 <div class="form-field">
 	<?php echo $form->labelEx($model,'name'); ?>
-	<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>450, "class" => "large text-input")); ?>
+	<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>450, "class" => "large input-text")); ?>
 	<?php echo $form->error($model,'name'); ?>
 </div>
 
 <div class="form-field">
 	<?php echo $form->labelEx($model,'email'); ?>
-	<?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>450, "class" => "large text-input")); ?>
+	<?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>450, "class" => "large input-text")); ?>
 	<?php echo $form->error($model,'email'); ?>
 </div>
 <br />

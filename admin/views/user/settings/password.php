@@ -11,7 +11,7 @@
 
 <div class="form-field">
 	<?php echo $form->labelEx($model,'password'); ?>
-	<?php echo $form->passwordField($model,'password',array('class' => "large text-input")); ?>
+	<?php echo $form->passwordField($model,'password',array('class' => "large input-text")); ?>
 	<?php echo $form->error($model,'password'); ?>
 </div>
 <div class="form-field">

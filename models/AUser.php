@@ -36,13 +36,7 @@ abstract class AUser extends CActiveRecord {
 	 * @var string
 	 */
 	public $searchKeyword;
-	/**
-	 * Holds the user's password
-	 * @see beforeSave()
-	 * @see afterFind()
-	 * @var string
-	 */
-	protected $_password;
+
 	/**
 	 * The total number of unread messages for this user
 	 * @var integer
@@ -178,13 +172,7 @@ abstract class AUser extends CActiveRecord {
 		return $preference->save();
 	}
 
-	/**
-	 * Generates a password reset code for this user
-	 * @return string the password reset code for this user
-	 */
-	public function getPasswordResetCode() {
-		return sha1("ResetPassword:".$this->id.$this->salt.".".$this->password);
-	}
+
 
 	/**
 	 * Generates an activation code for this user
@@ -195,30 +183,8 @@ abstract class AUser extends CActiveRecord {
 	}
 
 	/**
-	 * Generates a unique salt for this user.
-	 * @return string the unique salt
-	 */
-	protected function generateSalt() {
-		return sha1(uniqid());
-	}
-
-
-	/**
-	 * Compares the given password to the stored password for this user
-	 * @param string $password The plain text password to check
-	 * @return boolean true if the password matches
-	 */
-	public function verifyPassword($password) {
-		Yii::beginProfile("VerifyPassword");
-		$hash = new APasswordHash($password,$this->salt);
-		$result = $this->password == $hash->getHash();
-		Yii::endProfile("VerifyPassword");
-		return $result;
-	}
-
-	/**
 	 * Invoked after a user model is saved.
-	 * Invokes beforeRegister() and hashes the user's password if required.
+	 * Invokes beforeRegister()
 	 * @see CActiveRecord::beforeSave()
 	 * @see beforeRegister()
 	 * @return boolean whether the save should continue or not
@@ -227,25 +193,7 @@ abstract class AUser extends CActiveRecord {
 		if ($this->scenario == "register" && !$this->beforeRegister()) {
 			return false;
 		}
-		if ($this->isNewRecord || $this->password != $this->_password) {
-			if ($this->password == "") {
-				$this->password = $this->_password;
-			}
-			else {
-				$this->salt = $this->generateSalt();
-				$hash = new APasswordHash($this->password, $this->salt);
-				$this->password = $hash->getHash();
-			}
-		}
 		return parent::beforeSave();
-	}
-	/**
-	 * Stores the hashed password so we can determine whether the password has been changed
-	 * @see CActiveRecord::afterFind()
-	 */
-	protected function afterFind() {
-		$this->_password = $this->password;
-		parent::afterFind();
 	}
 
 	/**
@@ -613,9 +561,7 @@ abstract class AUser extends CActiveRecord {
 	{
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->searchKeyword,true,"OR");
-		$criteria->compare('name',$this->searchKeyword,true,"OR");
-		$criteria->compare('email',$this->searchKeyword,true,"OR");
+		$criteria->compare('email',$this->searchKeyword,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
