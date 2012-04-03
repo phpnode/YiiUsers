@@ -10,7 +10,7 @@ $this->breadcrumbs=array(
 );
 ?>
 <header>
-	<h1>Site Users</h1>
+	<h1><?php echo CHtml::encode(Yii::app()->name); ?> Users</h1>
 	<h4 class="subheader">
 		<?php
 		if ($totalUsers == 1) {
@@ -21,10 +21,10 @@ $this->breadcrumbs=array(
 		}
 		echo "of which ";
 		if ($totalActiveUsers == 1) {
-			echo "1 has activated their account.";
+			echo "1 are active.";
 		}
 		else {
-			echo number_format($totalActiveUsers)." have activated their account.";
+			echo number_format($totalActiveUsers)." are active.";
 		}
 
 ?></h4>
