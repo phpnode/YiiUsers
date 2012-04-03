@@ -39,18 +39,17 @@ class AUserIdentity extends CUserIdentity {
 	 */
 	public function authenticate() {
 		$user = $this->getUser();
-
 		if(!is_object($user)) {
 			Yii::log("Invalid login attempt from ".$_SERVER['REMOTE_ADDR']." (no such user)","invalidLogin","user.activity");
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
 		}
-		elseif(!$user->verifyPassword($this->password)) {
-			Yii::log("[$user->id] Invalid login attempt from ".$_SERVER['REMOTE_ADDR']." (incorrect password)","invalidLogin","user.activity");
-			$this->errorCode=self::ERROR_PASSWORD_INVALID;
-		}
 		elseif($user->is(AUser::STATE_DEACTIVATED) || (Yii::app()->getModule("users")->requireActivation && !$user->is(AUser::STATE_ACTIVE))) {
 			Yii::log("[$user->id] Invalid login attempt from ".$_SERVER['REMOTE_ADDR']." (account inactive)","invalidLogin","user.activity");
 			$this->errorCode=self::ERROR_ACCOUNT_INACTIVE;
+		}
+		elseif(!$user->verifyPassword($this->password)) {
+			Yii::log("[$user->id] Invalid login attempt from ".$_SERVER['REMOTE_ADDR']." (incorrect password)","invalidLogin","user.activity");
+			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		}
 		else {
 			Yii::log("[".$user->id."] Logged in from ".$_SERVER['REMOTE_ADDR'],"login","user.activity");
