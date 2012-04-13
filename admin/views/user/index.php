@@ -29,6 +29,8 @@ $this->breadcrumbs=array(
 
 ?></h4>
 	<?php
+	echo CHtml::link("Create User",array("create"),array("class" => "small nice white button"));
+	echo '<br /><br />';
 	$form = $this->beginWidget("CActiveForm",array(
 		"method" => "GET",
 		"htmlOptions" => array(
