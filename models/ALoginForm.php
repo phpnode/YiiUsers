@@ -32,6 +32,7 @@ class ALoginForm extends CFormModel {
 	 * Declares the validation rules.
 	 * The rules state that email and password are required,
 	 * and password needs to be authenticated.
+	 * @return array the validation rules
 	 */
 	public function rules()	{
 		return array(

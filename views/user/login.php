@@ -13,7 +13,7 @@
 	'htmlOptions' => array(
 		'class' => 'nice custom'
 	)
-)); ?>
+)); /* @var CActiveForm $form */ ?>
 
 <div class="form-field">
 	<?php echo $form->labelEx($model,'email'); ?>
