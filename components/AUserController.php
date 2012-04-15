@@ -145,7 +145,7 @@ abstract class AUserController extends Controller {
 				$email->viewData = array("user" => $user);
 				$email->view = "/user/emails/resetPassword";
 				if ($email->send()) {
-					Yii::app()->user->setFlash("info",$this->renderPartial("flashMessages/resetEmailSent",array("user" => $user),true));
+					Yii::app()->user->setFlash("success",$this->renderPartial("flashMessages/resetEmailSent",array("user" => $user),true));
 					$this->redirect(Yii::app()->user->loginUrl);
 				}
 				else {
