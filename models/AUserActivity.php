@@ -9,7 +9,7 @@
  * @property string $locationId the locationId column in table 'useractivity'
  * @property string $timeAdded the timeAdded column in table 'useractivity'
  *
- * @package application.models
+ * @package packages.users.models
  */
 class AUserActivity extends CActiveRecord
 {

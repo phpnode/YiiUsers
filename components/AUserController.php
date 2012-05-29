@@ -97,7 +97,7 @@ abstract class AUserController extends Controller {
 		$modelClass = $usersModule->userModelClass;
 		if ($id !== null && $key !== null) {
 			// check if the id + key match for this user
-			$user = $modelClass::model()->findByPk($id); /* @var AUser $user */
+			$user = $modelClass::model()->findByPk($id); /* @var AUser|APasswordBehavior $user */
 			if (!is_object($user)) {
 				Yii::log("Invalid password reset attempt (no such user)","invalidPasswordReset","user.activity");
 				throw new CHttpException(400,"Your request is invalid");
@@ -144,7 +144,8 @@ abstract class AUserController extends Controller {
 				$email->recipient = $user->email;
 				$email->viewData = array("user" => $user);
 				$email->view = "/user/emails/resetPassword";
-				if ($email->send(false)) {
+
+				if ($email->send()) {
 					Yii::app()->user->setFlash("success",$this->renderPartial("flashMessages/resetEmailSent",array("user" => $user),true));
 					$this->redirect(Yii::app()->user->loginUrl);
 				}
@@ -174,15 +175,15 @@ abstract class AUserController extends Controller {
 	 * @param string $key The unique activation code for this user
 	 */
 	public function actionActivate($id,$key) {
-		$usersModule = Yii::app()->getModule("users");
+		$usersModule = Yii::app()->getModule("users"); /* @var AUsersModule $usersModule */
 		$modelClass = $usersModule->userModelClass;
 		// check if the id + key match for this user
-		$user = $modelClass::model()->findByPk($id);
+		$user = $modelClass::model()->findByPk($id); /* @var AUser|APasswordBehavior $user */
 		if (!is_object($user)) {
 			Yii::log("Invalid account activation attempt (no such user)","warning","user.activity.activateAccount");
 			throw new CHttpException(400,"Your request is invalid");
 		}
-		elseif($user->activationCode != $key) {
+		elseif($user->getActivationCode() != $key) {
 			Yii::log("[$user->id] Invalid account activation attempt (invalid code)","warning","user.activity.activateAccount");
 			throw new CHttpException(400,"Your request is invalid");
 		}
@@ -266,7 +267,7 @@ abstract class AUserController extends Controller {
 		if (Yii::app()->user->isGuest) {
 			Yii::app()->user->loginRequired(); // access rules should be used to prevent this occurring
 		}
-		$model = Yii::app()->user->model; /* @var AUser $model */
+		$model = Yii::app()->user->getModel(); /* @var AUser $model */
 
 		if (Yii::app()->request->isAjaxRequest) {
 			$this->renderPartial("messages",array("model" => $model),false,true);

@@ -40,6 +40,7 @@
 	<?php echo CHtml::submitButton("Login",array("class" => "nice login button")); ?>
 	<?php
 		echo CHtml::link("Forgot your password?",array("/users/user/resetPassword"));
+		echo CHtml::link("Not A Member? Join Now",array("/users/user/register"), array("class" => "nice white right button"));
 	?>
 </div>
 
