@@ -9,7 +9,8 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'login-form',
 	'action' => array("/users/user/login"),
-	'enableAjaxValidation'=>true,
+	'enableAjaxValidation'=>false,
+	'enableClientValidation' => true,
 	'htmlOptions' => array(
 		'class' => 'nice custom'
 	)
