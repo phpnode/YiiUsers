@@ -25,8 +25,8 @@
 	<?php echo $form->passwordField($model,'password',array('size'=>60, "class" => "large input-text")); ?>
 	<?php echo $form->error($model,'password'); ?>
 </div>
+<?php if (Yii::app()->user->allowAutoLogin): ?>
 <div class="form-field">
-
 	<?php echo $form->label($model,'rememberMe',
 							array(
 								'label' => $form->checkBox($model,'rememberMe').
@@ -35,7 +35,7 @@
 						); ?>
 	<?php echo $form->error($model,'rememberMe'); ?>
 </div>
-
+<?php endif; ?>
 <div class="buttons">
 	<?php echo CHtml::submitButton("Login",array("class" => "nice login button")); ?>
 	<?php
