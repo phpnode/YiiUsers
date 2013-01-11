@@ -257,15 +257,16 @@ abstract class AUser extends CActiveRecord {
 
 	/**
 	 * Activates the user's account.
+	 * @param boolean $runValidation whether to run validation or not, defaults to true
 	 * @return boolean whether the account was activated or not
 	 */
-	public function activate() {
+	public function activate($runValidation = true) {
 		if (!$this->beforeActivate()) {
 			return false;
 		}
 		$status = $this->status;
 		$this->status = self::STATE_ACTIVE;
-		if (!$this->transition(self::STATE_ACTIVE) || !$this->save()) {
+		if (!$this->transition(self::STATE_ACTIVE) || !$this->save($runValidation)) {
 			$this->status = $status;
 			return false;
 		}
@@ -323,15 +324,16 @@ abstract class AUser extends CActiveRecord {
 
 	/**
 	 * Deactivates the user's account.
+	 * @param boolean $runValidation whether to run validation or not, defaults to true
 	 * @return boolean whether the account was deactivated or not
 	 */
-	public function deactivate() {
+	public function deactivate($runValidation = true) {
 		if (!$this->beforeDeactivate()) {
 			return false;
 		}
 		$status = $this->status;
 		$this->status = self::STATE_DEACTIVATED;
-		if (!$this->transition(self::STATE_DEACTIVATED) || !$this->save()) {
+		if (!$this->transition(self::STATE_DEACTIVATED) || !$this->save($runValidation)) {
 			$this->status = $status;
 			return false;
 		}
@@ -388,15 +390,16 @@ abstract class AUser extends CActiveRecord {
 
 	/**
 	 * Reactivates the user's account.
+	 * @param boolean $runValidation whether to run validation or not, defaults to true
 	 * @return boolean whether the account was reactivated or not
 	 */
-	public function reactivate() {
+	public function reactivate($runValidation = true) {
 		if (!$this->beforeReactivate()) {
 			return false;
 		}
 		$status = $this->status;
 		$this->status = self::STATE_ACTIVE;
-		if (!$this->transition(self::STATE_ACTIVE) || !$this->save()) {
+		if (!$this->transition(self::STATE_ACTIVE) || !$this->save($runValidation)) {
 			$this->status = $status;
 			return false;
 		}
