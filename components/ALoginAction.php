@@ -22,7 +22,7 @@ class ALoginAction extends CAction {
 				if ($user->requiresNewPassword) {
 					$controller->redirect(array("/users/user/changePassword"));
 				}
-				$controller->redirect(isset(Yii::app()->user->returnUrl) ? Yii::app()->user->returnUrl : array("/users/user/account"));
+				$controller->redirect(Yii::app()->user->getReturnUrl(array("/users/user/account")));
 			}
 		}
 

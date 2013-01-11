@@ -9,7 +9,8 @@
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'login-form',
 	'action' => array("/users/user/login"),
-	'enableAjaxValidation'=>true,
+	'enableAjaxValidation'=>false,
+	'enableClientValidation' => true,
 	'htmlOptions' => array(
 		'class' => 'nice custom'
 	)
@@ -25,8 +26,8 @@
 	<?php echo $form->passwordField($model,'password',array('size'=>60, "class" => "large input-text")); ?>
 	<?php echo $form->error($model,'password'); ?>
 </div>
+<?php if (Yii::app()->user->allowAutoLogin): ?>
 <div class="form-field">
-
 	<?php echo $form->label($model,'rememberMe',
 							array(
 								'label' => $form->checkBox($model,'rememberMe').
@@ -35,11 +36,12 @@
 						); ?>
 	<?php echo $form->error($model,'rememberMe'); ?>
 </div>
-
+<?php endif; ?>
 <div class="buttons">
 	<?php echo CHtml::submitButton("Login",array("class" => "nice login button")); ?>
 	<?php
 		echo CHtml::link("Forgot your password?",array("/users/user/resetPassword"));
+		echo CHtml::link("Not A Member? Join Now",array("/users/user/register"), array("class" => "nice white right button"));
 	?>
 </div>
 
